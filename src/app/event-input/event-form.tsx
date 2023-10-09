@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import { DateField } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
 import { addEvent } from "../../utils/supabaseFunction";
 import { useRouter } from "next/navigation";
 const EventForm = () => {
@@ -36,21 +33,6 @@ const EventForm = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          {/* <DatePicker
-            label="Controlled picker"
-            value={date}
-            onChange={(newDate) => setDate(newDate)}
-          /> */}
-          {/* <TextField
-            type="date"
-            id="start"
-            name="trip-start"
-            value={date}
-            // onChange={() => {
-            //   setDate(v);
-            // }}
-          /> */}
-          {/* <DateField value={date} onChange={(newValue) => setDate(dayjs(newValue).format)} /> */}
           <TextField
             type="date"
             name="date"
