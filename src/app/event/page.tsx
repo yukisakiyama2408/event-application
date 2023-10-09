@@ -1,4 +1,5 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+// import { supabase } from "../../../utils/supabase";
 import { cookies } from "next/headers";
 
 export default async function Event() {
