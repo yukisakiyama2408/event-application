@@ -1,6 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-// import { supabase } from "../../../utils/supabase";
 import { cookies } from "next/headers";
+import { Link } from "@mui/material";
 
 const Event = async () => {
   const supabase = createServerComponentClient({ cookies });
@@ -19,6 +19,7 @@ const Event = async () => {
               <div key={event.id}>{event.capacity}</div>
             </div>
           ))}
+          <Link href="/event-input">イベントを企画する</Link>
         </div>
       </div>
     </>

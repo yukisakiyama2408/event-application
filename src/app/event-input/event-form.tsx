@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { addEvent } from "../../utils/supabaseFunction";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import dayjs from "dayjs";
 
 const EventForm = () => {
@@ -52,9 +53,16 @@ const EventForm = () => {
             onChange={(e) => setCapacity(e.target.value)}
           />
           <div>
-            <Button variant="contained" type="submit">
-              登録
-            </Button>
+            <div>
+              <Button variant="contained" type="submit">
+                登録
+              </Button>
+            </div>
+            <div>
+              <Button variant="text">
+                <Link href="/event">戻る</Link>
+              </Button>
+            </div>
           </div>
         </Box>
       </div>
