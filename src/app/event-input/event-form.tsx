@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { addEvent } from "../../utils/supabaseFunction";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import dayjs from "dayjs";
+
 const EventForm = () => {
   const router = useRouter();
-
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | undefined>();
   const [capacity, setCapacity] = useState<string>("");
   const handleAddEvent = async (e: any) => {
     e.preventDefault();
-    console.log("aa");
     await addEvent(title, description, capacity, date);
+    router.push("/event");
   };
 
   return (
@@ -37,8 +38,11 @@ const EventForm = () => {
             type="date"
             name="date"
             placeholder="イベントの実施日"
-            value={date}
-            onChange={(e) => setDate(new Date(Date.parse(e.target.value)))}
+            // value={date}
+            value={dayjs(date).format("YYYY-MM-DD")}
+            onChange={(e) => setDate(new Date(e.target.value))}
+
+            // onChange={(e) => setDate(dayjs(e.target.value).toDate)}
           />
           <TextField
             type="text"
