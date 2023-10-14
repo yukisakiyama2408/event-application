@@ -1,25 +1,25 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+"use client";
+import { supabase } from "@/utils/supabase";
 import Link from "next/link";
 
 const Event = async () => {
-  const supabase = createServerComponentClient({ cookies });
   const { data: events } = await supabase.from("events").select();
-  // console.log(events);
 
   return (
     <>
       <div>
         <div>
           {events?.map((event: any) => (
-            <div>
-              <Link href="/event/[id]" as={`/event/${event.id}`}>
-                {event.title}
-              </Link>
-              <div key={event.id}>{event.title}</div>
-              <div key={event.id}>{event.description}</div>
-              <div key={event.id}>{event.date}</div>
-              <div key={event.id}>{event.capacity}</div>
+            <div key={event.id}>
+              <div>
+                {" "}
+                <Link href="/event/[id]" as={`/event/${event.id}`}>
+                  {event.title}
+                </Link>
+              </div>
+              <div>{event.description}</div>
+              <div>{event.date}</div>
+              <div>{event.capacity}</div>
             </div>
           ))}
           <Link href="/event-input">イベントを企画する</Link>
