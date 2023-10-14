@@ -1,9 +1,28 @@
 "use client";
 import { supabase } from "@/utils/supabase";
 import Link from "next/link";
-
-const Event = async () => {
-  const { data: events } = await supabase.from("events").select();
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
+const Event = () => {
+  const [events, setEvents] = useState<any>([]);
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const { data: events, error } = await supabase.from("events").select();
+        if (error) {
+          throw error;
+        }
+        setEvents(events);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchEvent();
+  }, []);
 
   return (
     <>
@@ -11,15 +30,40 @@ const Event = async () => {
         <div>
           {events?.map((event: any) => (
             <div key={event.id}>
-              <div>
-                {" "}
-                <Link href="/event/[id]" as={`/event/${event.id}`}>
-                  {event.title}
-                </Link>
-              </div>
-              <div>{event.description}</div>
-              <div>{event.date}</div>
-              <div>{event.capacity}</div>
+              <Card sx={{ maxWidth: 345 }}>
+                {/* <CardMedia
+                    sx={{ height: 140 }}
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    title="green iguana"
+                  /> */}
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    <Link href="/event/[id]" as={`/event/${event.id}`}>
+                      {event.title}
+                    </Link>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    component="div"
+                  >
+                    <div>{event.date}</div>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    component="div"
+                  >
+                    <div>
+                      <div>{event.capacity}</div>
+                    </div>
+                  </Typography>
+                </CardContent>
+                {/* <CardActions>
+                    <Button size="small">Share</Button>
+                    <Button size="small">Learn More</Button>
+                  </CardActions> */}
+              </Card>
             </div>
           ))}
           <Link href="/event-input">イベントを企画する</Link>
