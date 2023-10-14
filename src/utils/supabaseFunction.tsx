@@ -32,6 +32,6 @@ export const EditEvent = async (
     .eq("id", id);
 };
 
-export const GetEventDetail = async (id: string) => {
-  const { data: events } = await supabase.from("events").select().eq("id", id);
+export const DeleteEvent = async (id: string) => {
+  await supabase.from("events").delete().eq("id", id);
 };
