@@ -1,42 +1,17 @@
-"use client";
-import { useParams, useSearchParams } from "next/navigation";
-import { supabase } from "@/utils/supabase";
-import format from "date-fns/format";
-import Link from "next/link";
-import { DeleteEvent } from "@/utils/supabaseFunction";
-import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
-const EventDetail = async () => {
-  const router = useRouter();
-  const params = useParams();
-  const id = params?.id;
+import EventDetail from "./event-detail";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-  const { data: events } = await supabase.from("events").select().eq("id", id);
-  const event = events && events[0];
-
-  const handleDelete = async (id: any) => {
-    await DeleteEvent(id);
-    router.push("/event");
-  };
+const EventPage = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
   return (
     <>
-      <div>
-        <div>{event.title}</div>
-        <div>{format(new Date(event.date), "MM/dd/yyyy")}</div>
-        <div>
-          {" "}
-          <Link href="/event/[id]/edit" as={`/event/${event.id}/edit`}>
-            編集
-          </Link>
-        </div>
-        <div>
-          <Button variant="contained" onClick={() => handleDelete(id)}>
-            削除
-          </Button>
-        </div>
-      </div>
+      <EventDetail session={session} />
     </>
   );
 };
 
-export default EventDetail;
+export default EventPage;
