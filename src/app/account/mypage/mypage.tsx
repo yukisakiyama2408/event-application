@@ -3,16 +3,13 @@ import { Session } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 const MyAccount = ({ session }: { session: Session | null }) => {
   const user = session?.user;
   const userId = user && user.id;
-  const [participatedEventId, setParticipatedEventId] = useState<any>([]);
   const [participatedEvent, setParticipatedEvent] = useState<any>([]);
 
   useEffect(() => {
@@ -20,24 +17,22 @@ const MyAccount = ({ session }: { session: Session | null }) => {
       try {
         const { data: eventId, error } = await supabase
           .from("event_participate")
-          .select()
+          .select(
+            `
+          participated_event_id, 
+          events ( id, title,date,capacity )`
+          )
           .eq("participating_account_id", userId);
-        const { data: event } = await supabase
-          .from("events")
-          .select()
-          .eq("id", participatedEventId);
         if (error) {
           throw error;
         }
-        setParticipatedEventId(eventId[0].participated_event_id);
-        setParticipatedEvent(event);
+        setParticipatedEvent(eventId);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchEvent();
   }, []);
-  console.log(participatedEventId);
   return (
     <>
       {" "}
@@ -45,40 +40,34 @@ const MyAccount = ({ session }: { session: Session | null }) => {
         <div>参加予定のイベント</div>
         <div>
           {participatedEvent?.map((event: any) => (
-            <div key={event.id}>
+            <div key={event.events.id}>
               <Card sx={{ maxWidth: 345 }}>
-                {/* <CardMedia
-              sx={{ height: 140 }}
-              image="/static/images/cards/contemplative-reptile.jpg"
-              title="green iguana"
-            /> */}
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <Link href="/event/[id]" as={`/event/${event.id}`}>
-                      {event.title}
-                    </Link>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    component="div"
-                  >
-                    <div>{event.date}</div>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    component="div"
-                  >
-                    <div>
-                      <div>{event.capacity}</div>
-                    </div>
-                  </Typography>
+                  <div>
+                    {" "}
+                    <Typography gutterBottom variant="h5" component="div">
+                      <Link href="/event/[id]" as={`/event/${event.events.id}`}>
+                        {event.events.title}
+                      </Link>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      <div>{event.events.date}</div>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      <div>
+                        <div>{event.events.capacity}</div>
+                      </div>
+                    </Typography>
+                  </div>
                 </CardContent>
-                {/* <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
-            </CardActions> */}
               </Card>
             </div>
           ))}
