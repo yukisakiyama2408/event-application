@@ -23,7 +23,11 @@ const EventDetail = ({ session }: { session: Session | null }) => {
       try {
         const { data: events, error } = await supabase
           .from("events")
-          .select()
+          .select(
+            `
+          id,title,description,capacity,date,host_id, is_published,
+          event_participate ( participating_account_id )`
+          )
           .eq("id", id);
         const { data: users, status } = await supabase
           .from("profiles")
@@ -42,11 +46,12 @@ const EventDetail = ({ session }: { session: Session | null }) => {
     fetchUserId();
   }, []);
   const event = events && events[0];
+
   const handleDelete = async (id: any) => {
     await DeleteEvent(id);
     router.push("/event");
   };
-
+  console.log(event);
   return (
     <>
       <div>
@@ -75,10 +80,19 @@ const EventDetail = ({ session }: { session: Session | null }) => {
               </div>
             )}
             <div>
-              <EventParitipate eventId={event.id} userId={userId.id} />
-            </div>
-            <div>
-              <ParticipateCancel eventId={event.id} userId={userId.id} />
+              {event.event_participate.length > 0 ? (
+                <div>
+                  <ParticipateCancel eventId={event.id} userId={userId.id} />
+                </div>
+              ) : (
+                <div>
+                  <EventParitipate eventId={event.id} userId={userId.id} />
+                </div>
+              )}
+              {/* <div>
+                // <EventParitipate eventId={event.id} userId={userId.id} />
+                //{" "}
+              </div> */}
             </div>
           </div>
         )}
