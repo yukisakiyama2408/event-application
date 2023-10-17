@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import EventParitipate from "@/components/event-participate/event-participate";
 import { useState, useEffect } from "react";
 import { Session } from "@supabase/auth-helpers-nextjs";
+import ParticipateCancel from "@/components/event-participate-cancel/participate-cancel";
 const EventDetail = ({ session }: { session: Session | null }) => {
   const router = useRouter();
   const params = useParams();
@@ -66,6 +67,9 @@ const EventDetail = ({ session }: { session: Session | null }) => {
             </div>
             <div>
               <EventParitipate eventId={event.id} userId={userId.id} />
+            </div>
+            <div>
+              <ParticipateCancel eventId={event.id} userId={userId.id} />
             </div>
           </div>
         )}

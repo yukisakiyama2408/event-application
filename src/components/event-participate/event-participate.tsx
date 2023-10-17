@@ -10,6 +10,7 @@ const EventParitipate: React.FC<any> = ({ eventId, userId }) => {
       participating_account_id: userId,
     });
   };
+
   const handleParticipateEvent = async (e: any) => {
     await participateEvent(eventId, userId);
     router.push("/event");
