@@ -63,14 +63,31 @@ const EventDetail = ({ session }: { session: Session | null }) => {
             {event.host_id == userId.id && (
               <div>
                 <div>
-                  <Button variant="contained">
-                    <Link
-                      href="/event/[id]/edit"
-                      as={`/event/${event.id}/edit`}
-                    >
-                      編集
-                    </Link>
-                  </Button>
+                  {event.is_published == true ? (
+                    <div>
+                      {" "}
+                      <Button variant="contained">
+                        <Link
+                          href="/event/[id]/edit"
+                          as={`/event/${event.id}/edit`}
+                        >
+                          編集
+                        </Link>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      {" "}
+                      <Button variant="contained">
+                        <Link
+                          href="/event/[id]/edit"
+                          as={`/event/${event.id}/edit`}
+                        >
+                          下書きを編集
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <Button variant="contained" onClick={() => handleDelete(id)}>
@@ -89,10 +106,6 @@ const EventDetail = ({ session }: { session: Session | null }) => {
                   <EventParitipate eventId={event.id} userId={userId.id} />
                 </div>
               )}
-              {/* <div>
-                // <EventParitipate eventId={event.id} userId={userId.id} />
-                //{" "}
-              </div> */}
             </div>
           </div>
         )}

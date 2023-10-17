@@ -2,9 +2,7 @@
 import { supabase } from "@/utils/supabase";
 import Link from "next/link";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 const Event = () => {
@@ -12,7 +10,10 @@ const Event = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const { data: events, error } = await supabase.from("events").select();
+        const { data: events, error } = await supabase
+          .from("events")
+          .select()
+          .eq("is_published", true);
         if (error) {
           throw error;
         }
@@ -31,11 +32,6 @@ const Event = () => {
           {events?.map((event: any) => (
             <div key={event.id}>
               <Card sx={{ maxWidth: 345 }}>
-                {/* <CardMedia
-                    sx={{ height: 140 }}
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="green iguana"
-                  /> */}
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     <Link href="/event/[id]" as={`/event/${event.id}`}>
@@ -59,10 +55,6 @@ const Event = () => {
                     </div>
                   </Typography>
                 </CardContent>
-                {/* <CardActions>
-                    <Button size="small">Share</Button>
-                    <Button size="small">Learn More</Button>
-                  </CardActions> */}
               </Card>
             </div>
           ))}
