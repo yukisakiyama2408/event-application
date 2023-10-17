@@ -46,6 +46,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
     await DeleteEvent(id);
     router.push("/event");
   };
+
   return (
     <>
       <div>
@@ -54,17 +55,25 @@ const EventDetail = ({ session }: { session: Session | null }) => {
             {" "}
             <div>{event.title}</div>
             <div>{format(new Date(event.date), "MM/dd/yyyy")}</div>
-            <div>
-              {" "}
-              <Link href="/event/[id]/edit" as={`/event/${event.id}/edit`}>
-                編集
-              </Link>
-            </div>
-            <div>
-              <Button variant="contained" onClick={() => handleDelete(id)}>
-                削除
-              </Button>
-            </div>
+            {event.host_id == userId.id && (
+              <div>
+                <div>
+                  <Button variant="contained">
+                    <Link
+                      href="/event/[id]/edit"
+                      as={`/event/${event.id}/edit`}
+                    >
+                      編集
+                    </Link>
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="contained" onClick={() => handleDelete(id)}>
+                    削除
+                  </Button>
+                </div>
+              </div>
+            )}
             <div>
               <EventParitipate eventId={event.id} userId={userId.id} />
             </div>
