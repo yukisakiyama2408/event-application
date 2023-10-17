@@ -4,13 +4,15 @@ export const addEvent = async (
   title: string,
   description: string,
   capacity: string,
-  date: Date | undefined
+  date: Date | undefined,
+  host_id: string
 ) => {
   await supabase.from("events").insert({
     title: title,
     description: description,
     capacity: capacity,
     date: date,
+    host_id: host_id,
   });
 };
 
