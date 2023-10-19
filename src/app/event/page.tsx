@@ -14,7 +14,7 @@ const Event = () => {
           .from("events")
           .select(
             `
-          id,title,capacity,date,
+          id,title,capacity,date,start_time,
           event_participate ( id )`
           )
           .eq("is_published", true);

@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Box, TextField, Button, Checkbox } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Checkbox,
+  Container,
+  Grid,
+} from "@mui/material";
 import { publishEvent } from "../../utils/supabaseFunction";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -17,8 +24,6 @@ const EventForm = ({ session }: { session: Session | null }) => {
   const [capacity, setCapacity] = useState<string>("");
   const [host_id, setHost_id] = useState<string>("");
   const [is_published, setIs_Published] = useState<boolean>(false);
-
-  // const [userId, setUserId] = useState<any>([]);
 
   const user = session?.user;
   useEffect(() => {
@@ -60,61 +65,65 @@ const EventForm = ({ session }: { session: Session | null }) => {
   return (
     <>
       <div>
-        <Box component="form" onSubmit={(e) => handlePublishEvent(e)}>
-          <TextField
-            type="text"
-            name="title"
-            placeholder="イベントのタイトル"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            type="text"
-            name="description"
-            placeholder="イベントの詳細"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <TextField
-            type="date"
-            name="date"
-            placeholder="イベントの実施日"
-            // value={date}
-            value={dayjs(date).format("YYYY-MM-DD")}
-            onChange={(e) => setDate(new Date(e.target.value))}
-
-            // onChange={(e) => setDate(dayjs(e.target.value).toDate)}
-          />
-          <TextField
-            type="text"
-            name="capacity"
-            placeholder="イベントの定員"
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
-          />
-          <Checkbox
-            checked={is_published}
-            onChange={handleChange}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-          <div>
-            {/* <div>
-              <Button variant="contained" type="submit">
-                登録
-              </Button>
-            </div> */}
+        <Container component="main" maxWidth="xs">
+          {" "}
+          <Box component="form" onSubmit={(e) => handlePublishEvent(e)}>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="title"
+                placeholder="イベントのタイトル"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="description"
+                placeholder="イベントの詳細"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="date"
+                name="date"
+                placeholder="イベントの実施日"
+                value={dayjs(date).format("YYYY-MM-DD")}
+                onChange={(e) => setDate(new Date(e.target.value))}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="capacity"
+                placeholder="イベントの定員"
+                value={capacity}
+                onChange={(e) => setCapacity(e.target.value)}
+              />
+            </Grid>
+            <Checkbox
+              checked={is_published}
+              onChange={handleChange}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+            公開する場合はこちらをチェック
             <div>
-              <Button variant="contained" type="submit">
-                登録
-              </Button>
+              <div>
+                <Button variant="contained" type="submit">
+                  {is_published == true ? <>登録</> : <>下書きを保存</>}
+                </Button>
+              </div>
+              <div>
+                <Button variant="text">
+                  <Link href="/event">戻る</Link>
+                </Button>
+              </div>
             </div>
-            <div>
-              <Button variant="text">
-                <Link href="/event">戻る</Link>
-              </Button>
-            </div>
-          </div>
-        </Box>
+          </Box>
+        </Container>
       </div>
     </>
   );
