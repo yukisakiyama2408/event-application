@@ -1,11 +1,12 @@
 import { supabase } from "./supabase";
 
-export const addEvent = async (
+export const publishEvent = async (
   title: string,
   description: string,
   capacity: string,
   date: Date | undefined,
-  host_id: string
+  host_id: string,
+  is_published: boolean
 ) => {
   await supabase.from("events").insert({
     title: title,
@@ -13,6 +14,7 @@ export const addEvent = async (
     capacity: capacity,
     date: date,
     host_id: host_id,
+    is_published: is_published,
   });
 };
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Box, TextField, Button } from "@mui/material";
-import { addEvent } from "../../utils/supabaseFunction";
+import { Box, TextField, Button, Checkbox } from "@mui/material";
+import { publishEvent } from "../../utils/supabaseFunction";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dayjs from "dayjs";
@@ -16,6 +16,7 @@ const EventForm = ({ session }: { session: Session | null }) => {
   const [date, setDate] = useState<Date | undefined>();
   const [capacity, setCapacity] = useState<string>("");
   const [host_id, setHost_id] = useState<string>("");
+  const [is_published, setIs_Published] = useState<boolean>(false);
 
   // const [userId, setUserId] = useState<any>([]);
 
@@ -39,16 +40,27 @@ const EventForm = ({ session }: { session: Session | null }) => {
     fetchUserId();
   }, []);
 
-  const handleAddEvent = async (e: any) => {
+  const handlePublishEvent = async (e: any) => {
     e.preventDefault();
-    await addEvent(title, description, capacity, date, host_id);
+    await publishEvent(
+      title,
+      description,
+      capacity,
+      date,
+      host_id,
+      is_published
+    );
     router.push("/event");
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIs_Published(event.target.checked);
   };
 
   return (
     <>
       <div>
-        <Box component="form" onSubmit={(e) => handleAddEvent(e)}>
+        <Box component="form" onSubmit={(e) => handlePublishEvent(e)}>
           <TextField
             type="text"
             name="title"
@@ -80,7 +92,17 @@ const EventForm = ({ session }: { session: Session | null }) => {
             value={capacity}
             onChange={(e) => setCapacity(e.target.value)}
           />
+          <Checkbox
+            checked={is_published}
+            onChange={handleChange}
+            inputProps={{ "aria-label": "controlled" }}
+          />
           <div>
+            {/* <div>
+              <Button variant="contained" type="submit">
+                登録
+              </Button>
+            </div> */}
             <div>
               <Button variant="contained" type="submit">
                 登録
