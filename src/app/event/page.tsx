@@ -12,7 +12,11 @@ const Event = () => {
       try {
         const { data: events, error } = await supabase
           .from("events")
-          .select()
+          .select(
+            `
+          id,title,capacity,date,
+          event_participate ( id )`
+          )
           .eq("is_published", true);
         if (error) {
           throw error;
@@ -24,7 +28,6 @@ const Event = () => {
     };
     fetchEvent();
   }, []);
-
   return (
     <>
       <div>
@@ -50,9 +53,7 @@ const Event = () => {
                     color="text.secondary"
                     component="div"
                   >
-                    <div>
-                      <div>{event.capacity}</div>
-                    </div>
+                    参加者数：{event.event_participate.length}/{event.capacity}
                   </Typography>
                 </CardContent>
               </Card>
