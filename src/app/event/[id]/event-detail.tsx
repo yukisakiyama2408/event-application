@@ -10,6 +10,7 @@ import EventParitipate from "@/components/event-participate/event-participate";
 import { useState, useEffect } from "react";
 import { Session } from "@supabase/auth-helpers-nextjs";
 import ParticipateCancel from "@/components/event-participate-cancel/participate-cancel";
+
 const EventDetail = ({ session }: { session: Session | null }) => {
   const router = useRouter();
   const params = useParams();
@@ -25,7 +26,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
           .from("events")
           .select(
             `
-          id,title,description,capacity,date,host_id, is_published,
+          id,title,description,capacity,start_date,start_time,end_date,end_time,place,place_link,host_id, is_published,
           event_participate ( participating_account_id )`
           )
           .eq("id", id);
@@ -59,7 +60,21 @@ const EventDetail = ({ session }: { session: Session | null }) => {
           <div>
             {" "}
             <div>{event.title}</div>
-            <div>{format(new Date(event.date), "MM/dd/yyyy")}</div>
+            <div>
+              開始時間：{format(new Date(event.start_date), "yyyy年MM月dd日")}
+              {event.start_time}
+            </div>
+            <div>
+              終了時間：{format(new Date(event.end_date), "yyyy年MM月dd日")}
+              {event.end_time}
+            </div>
+            {event.place_link ? (
+              <div>
+                場所：<Link href={event.place_link}> {event.place}</Link>
+              </div>
+            ) : (
+              <div>{event.place}</div>
+            )}
             {event.host_id == userId.id && (
               <div>
                 <div>
