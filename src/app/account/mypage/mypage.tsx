@@ -23,12 +23,16 @@ const MyAccount = ({ session }: { session: Session | null }) => {
           .select(
             `
           participated_event_id, 
-          events ( id, title,date,capacity )`
+          events ( id, title,start_date,capacity,place )`
           )
           .eq("participating_account_id", userId);
         const { data: hostingEvent } = await supabase
           .from("events")
-          .select()
+          .select(
+            `
+          id,title,capacity,start_date,start_time,end_date,end_time,
+          event_participate ( id )`
+          )
           .eq("host_id", userId);
         if (error) {
           throw error;
@@ -43,7 +47,8 @@ const MyAccount = ({ session }: { session: Session | null }) => {
   }, []);
   console.log(hostEvent && hostEvent);
   const hostedEvent = hostEvent && hostEvent;
-  console.log(hostedEvent);
+  // console.log(participatedEvent && participatedEvent);
+  // console.log(hostedEvent);
   return (
     <>
       {" "}
@@ -73,7 +78,9 @@ const MyAccount = ({ session }: { session: Session | null }) => {
                       color="text.secondary"
                       component="div"
                     >
+                      参加者数：{event.event_participate.length}/
                       {event.capacity}
+                      {/* {event.capacity} */}
                     </Typography>
                     <CardActions>
                       {" "}
@@ -121,7 +128,7 @@ const MyAccount = ({ session }: { session: Session | null }) => {
                       color="text.secondary"
                       component="div"
                     >
-                      {event.events.capacity}
+                      {event.events.place}
                     </Typography>
                   </div>
                 </CardContent>
