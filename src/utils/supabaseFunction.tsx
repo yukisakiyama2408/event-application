@@ -4,17 +4,27 @@ export const publishEvent = async (
   title: string,
   description: string,
   capacity: string,
-  date: Date | undefined,
+  start_date: Date | undefined,
+  start_time: string | undefined,
+  end_date: Date | undefined,
+  end_time: string | undefined,
   host_id: string,
-  is_published: boolean
+  is_published: boolean,
+  place: string,
+  place_link: string
 ) => {
   await supabase.from("events").insert({
     title: title,
     description: description,
     capacity: capacity,
-    date: date,
+    start_date: start_date,
+    start_time: start_time,
+    end_date: end_date,
+    end_time: end_time,
     host_id: host_id,
     is_published: is_published,
+    place: place,
+    place_link: place_link,
   });
 };
 

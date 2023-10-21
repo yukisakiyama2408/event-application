@@ -14,7 +14,7 @@ const Event = () => {
           .from("events")
           .select(
             `
-          id,title,capacity,date,start_time,
+          id,title,capacity,start_date,start_time,end_date,end_time,
           event_participate ( id )`
           )
           .eq("is_published", true);
@@ -46,7 +46,11 @@ const Event = () => {
                     color="text.secondary"
                     component="div"
                   >
-                    <div>{event.date}</div>
+                    <div>
+                      {event.start_date}
+                      {event.start_time}-{event.end_date}
+                      {event.end_time}
+                    </div>
                   </Typography>
                   <Typography
                     variant="body2"

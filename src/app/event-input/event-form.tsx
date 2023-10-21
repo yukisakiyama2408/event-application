@@ -20,10 +20,15 @@ const EventForm = ({ session }: { session: Session | null }) => {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<Date | undefined>();
+  const [start_date, setStart_Date] = useState<Date | undefined>();
+  const [start_time, setStart_time] = useState<string>("");
+  const [end_date, setEnd_Date] = useState<Date | undefined>();
+  const [end_time, setEnd_time] = useState<string>("");
   const [capacity, setCapacity] = useState<string>("");
   const [host_id, setHost_id] = useState<string>("");
   const [is_published, setIs_Published] = useState<boolean>(false);
+  const [place, setPlace] = useState<string>("");
+  const [place_link, setPlace_link] = useState<string>("");
 
   const user = session?.user;
   useEffect(() => {
@@ -45,15 +50,22 @@ const EventForm = ({ session }: { session: Session | null }) => {
     fetchUserId();
   }, []);
 
+  console.log(start_time);
+
   const handlePublishEvent = async (e: any) => {
     e.preventDefault();
     await publishEvent(
       title,
       description,
       capacity,
-      date,
+      start_date,
+      start_time,
+      end_date,
+      end_time,
       host_id,
-      is_published
+      is_published,
+      place,
+      place_link
     );
     router.push("/event");
   };
@@ -91,9 +103,50 @@ const EventForm = ({ session }: { session: Session | null }) => {
                 type="date"
                 name="date"
                 placeholder="イベントの実施日"
-                value={dayjs(date).format("YYYY-MM-DD")}
-                onChange={(e) => setDate(new Date(e.target.value))}
+                value={dayjs(start_date).format("YYYY-MM-DD")}
+                onChange={(e) => setStart_Date(new Date(e.target.value))}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="time"
+                placeholder="イベント開始時間"
+                value={start_time}
+                onChange={(e) => setStart_time(e.target.value)}
+              />
+              {/* <TextField
+                type="time"
+                name="time"
+                placeholder="イベントの実施日"
+                value={dayjs(date).format("HH:mm:ss")}
+                onChange={(e) => setStart_time(new Date(e.target.value))}
+              /> */}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="date"
+                name="date"
+                placeholder="イベントの実施日"
+                value={dayjs(end_date).format("YYYY-MM-DD")}
+                onChange={(e) => setEnd_Date(new Date(e.target.value))}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="time"
+                placeholder="イベント開始時間"
+                value={end_time}
+                onChange={(e) => setEnd_time(e.target.value)}
+              />
+              {/* <TextField
+                type="time"
+                name="time"
+                placeholder="イベントの実施日"
+                value={dayjs(date).format("HH:mm:ss")}
+                onChange={(e) => setStart_time(new Date(e.target.value))}
+              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -102,6 +155,24 @@ const EventForm = ({ session }: { session: Session | null }) => {
                 placeholder="イベントの定員"
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="place"
+                placeholder="会場"
+                value={place}
+                onChange={(e) => setPlace(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                type="text"
+                name="place_link"
+                placeholder="会場のURL"
+                value={place_link}
+                onChange={(e) => setPlace_link(e.target.value)}
               />
             </Grid>
             <Checkbox
