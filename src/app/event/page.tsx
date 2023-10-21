@@ -4,7 +4,9 @@ import Link from "next/link";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { Container } from "@mui/material";
 import { useEffect, useState } from "react";
+import GlobalHeader from "@/components/globalHeader";
 const Event = () => {
   const [events, setEvents] = useState<any>([]);
   useEffect(() => {
@@ -32,37 +34,43 @@ const Event = () => {
     <>
       <div>
         <div>
-          {events?.map((event: any) => (
-            <div key={event.id}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <Link href="/event/[id]" as={`/event/${event.id}`}>
-                      {event.title}
-                    </Link>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    component="div"
-                  >
-                    <div>
-                      {event.start_date}
-                      {event.start_time}-{event.end_date}
-                      {event.end_time}
-                    </div>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    component="div"
-                  >
-                    参加者数：{event.event_participate.length}/{event.capacity}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
+          <GlobalHeader />
+        </div>
+        <div>
+          <Container>
+            {events?.map((event: any) => (
+              <div key={event.id}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      <Link href="/event/[id]" as={`/event/${event.id}`}>
+                        {event.title}
+                      </Link>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      <div>
+                        {event.start_date}
+                        {event.start_time}-{event.end_date}
+                        {event.end_time}
+                      </div>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      参加者数：{event.event_participate.length}/
+                      {event.capacity}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </Container>
           <Link href="/event-input">イベントを企画する</Link>
         </div>
       </div>
