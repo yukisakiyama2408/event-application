@@ -203,53 +203,6 @@ const EventEditForm = () => {
           </Box>
         </Container>
       </div>
-      {/* <div>
-        <Box component="form" onSubmit={(e) => handleEditEvent(e, id)}>
-          <TextField
-            type="text"
-            name="title"
-            placeholder="イベントのタイトル"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            type="text"
-            name="description"
-            placeholder="イベントの詳細"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <TextField
-            type="date"
-            name="date"
-            placeholder="イベントの実施日"
-            // value={date}
-            value={dayjs(start_date).format("YYYY-MM-DD")}
-            onChange={(e) => setStart_Date(new Date(e.target.value))}
-
-            // onChange={(e) => setDate(dayjs(e.target.value).toDate)}
-          />
-          <TextField
-            type="text"
-            name="capacity"
-            placeholder="イベントの定員"
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
-          />
-          <div>
-            <div>
-              <Button variant="contained" type="submit">
-                登録
-              </Button>
-            </div>
-            <div>
-              <Button variant="text">
-                <Link href="/event">戻る</Link>
-              </Button>
-            </div>
-          </div>
-        </Box>
-      </div> */}
     </>
   );
 };
