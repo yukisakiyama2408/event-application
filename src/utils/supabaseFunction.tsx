@@ -37,7 +37,7 @@ export const EditEvent = async (
   end_date: Date | undefined,
   end_time: string | undefined,
   host_id: string,
-  is_published: boolean,
+  is_published: boolean | undefined,
   place: string,
   place_link: string,
   id: string

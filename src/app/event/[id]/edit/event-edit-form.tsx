@@ -8,10 +8,12 @@ import {
   Container,
   Grid,
   Checkbox,
+  Typography,
 } from "@mui/material";
 import { supabase } from "@/utils/supabase";
 import Link from "next/link";
 import dayjs from "dayjs";
+import GlobalHeader from "@/components/globalHeader";
 
 const EventEditForm = () => {
   const params = useParams();
@@ -84,14 +86,21 @@ const EventEditForm = () => {
   return (
     <>
       <div>
+        <div>
+          <GlobalHeader />
+        </div>
         <Container component="main" maxWidth="xs">
-          {" "}
+          <Typography variant="h4" gutterBottom>
+            編集{" "}
+          </Typography>
           <Box component="form" onSubmit={(e) => handleEditEvent(e, id)}>
             <Grid item xs={12}>
               <TextField
                 type="text"
+                fullWidth
+                margin="normal"
                 name="title"
-                placeholder="イベントのタイトル"
+                label="イベントのタイトル"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -100,7 +109,10 @@ const EventEditForm = () => {
               <TextField
                 type="text"
                 name="description"
-                placeholder="イベントの詳細"
+                fullWidth
+                margin="normal"
+                multiline
+                label="イベントの詳細"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -109,7 +121,9 @@ const EventEditForm = () => {
               <TextField
                 type="date"
                 name="date"
-                placeholder="イベントの実施日"
+                fullWidth
+                margin="normal"
+                label="イベントの開始日"
                 value={dayjs(start_date).format("YYYY-MM-DD")}
                 onChange={(e) => setStart_Date(new Date(e.target.value))}
               />
@@ -118,7 +132,9 @@ const EventEditForm = () => {
               <TextField
                 type="text"
                 name="time"
-                placeholder="イベント開始時間"
+                fullWidth
+                margin="normal"
+                label="イベント開始時間"
                 value={start_time}
                 onChange={(e) => setStart_time(e.target.value)}
               />
@@ -134,7 +150,9 @@ const EventEditForm = () => {
               <TextField
                 type="date"
                 name="date"
-                placeholder="イベントの実施日"
+                fullWidth
+                margin="normal"
+                label="イベントの終了日"
                 value={dayjs(end_date).format("YYYY-MM-DD")}
                 onChange={(e) => setEnd_Date(new Date(e.target.value))}
               />
@@ -143,7 +161,9 @@ const EventEditForm = () => {
               <TextField
                 type="text"
                 name="time"
-                placeholder="イベント開始時間"
+                fullWidth
+                margin="normal"
+                label="イベント終了時間"
                 value={end_time}
                 onChange={(e) => setEnd_time(e.target.value)}
               />
@@ -159,7 +179,9 @@ const EventEditForm = () => {
               <TextField
                 type="text"
                 name="capacity"
-                placeholder="イベントの定員"
+                fullWidth
+                margin="normal"
+                label="イベントの定員"
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
               />
@@ -168,7 +190,9 @@ const EventEditForm = () => {
               <TextField
                 type="text"
                 name="place"
-                placeholder="会場"
+                fullWidth
+                margin="normal"
+                label="会場"
                 value={place}
                 onChange={(e) => setPlace(e.target.value)}
               />
@@ -177,7 +201,9 @@ const EventEditForm = () => {
               <TextField
                 type="text"
                 name="place_link"
-                placeholder="会場のURL"
+                fullWidth
+                margin="normal"
+                label="会場のURL"
                 value={place_link}
                 onChange={(e) => setPlace_link(e.target.value)}
               />
