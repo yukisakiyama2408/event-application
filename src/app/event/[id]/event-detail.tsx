@@ -26,11 +26,11 @@ const EventDetail = ({ session }: { session: Session | null }) => {
           .from("events")
           .select(
             `
-          id,title,description,capacity,start_date,start_time,end_date,end_time,place,place_link,host_id, is_published,
+          id,title,description,capacity,start_date,start_time,end_date,end_time,place,place_link,host_id,is_published,
           event_participate ( participating_account_id )`
           )
           .eq("id", id);
-        const { data: users, status } = await supabase
+        const { data: users } = await supabase
           .from("profiles")
           .select(`id`)
           .eq("id", user?.id)
@@ -47,7 +47,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
     fetchUserId();
   }, []);
   const event = events && events[0];
-
+  const account = userId && userId;
   const handleDelete = async (id: any) => {
     await DeleteEvent(id);
     router.push("/event");
@@ -75,7 +75,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
             ) : (
               <div>{event.place}</div>
             )}
-            {event.host_id == userId.id && (
+            {event.host_id == account.id && (
               <div>
                 <div>
                   <Button variant="contained">

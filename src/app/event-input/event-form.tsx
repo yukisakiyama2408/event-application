@@ -54,7 +54,7 @@ const EventForm = ({ session }: { session: Session | null }) => {
 
   console.log(start_time);
 
-  const handlePublishEvent = async (e: any) => {
+  const handlePublishEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await publishEvent(
       title,

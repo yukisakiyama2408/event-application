@@ -40,7 +40,7 @@ export const EditEvent = async (
   is_published: boolean | undefined,
   place: string,
   place_link: string,
-  id: string
+  id: string | string[]
 ) => {
   await supabase
     .from("events")

@@ -60,7 +60,10 @@ const EventEditForm = () => {
     fetchEvent();
   }, []);
 
-  const handleEditEvent = async (e: any, id: any) => {
+  const handleEditEvent = async (
+    e: React.FormEvent<HTMLFormElement>,
+    id: string | string[]
+  ) => {
     e.preventDefault();
     await EditEvent(
       title,
