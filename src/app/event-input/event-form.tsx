@@ -8,6 +8,7 @@ import {
   Checkbox,
   Container,
   Grid,
+  Typography,
 } from "@mui/material";
 import { publishEvent } from "../../utils/supabaseFunction";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import { Session } from "@supabase/auth-helpers-nextjs";
 import { supabase } from "@/utils/supabase";
+import GlobalHeader from "@/components/globalHeader";
 
 const EventForm = ({ session }: { session: Session | null }) => {
   const router = useRouter();
@@ -77,14 +79,21 @@ const EventForm = ({ session }: { session: Session | null }) => {
   return (
     <>
       <div>
+        <div>
+          <GlobalHeader />
+        </div>
         <Container component="main" maxWidth="xs">
-          {" "}
+          <Typography variant="h4" gutterBottom>
+            イベント登録{" "}
+          </Typography>
           <Box component="form" onSubmit={(e) => handlePublishEvent(e)}>
             <Grid item xs={12}>
               <TextField
+                label="タイトル"
+                fullWidth
                 type="text"
                 name="title"
-                placeholder="イベントのタイトル"
+                margin="normal"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -93,7 +102,10 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="text"
                 name="description"
-                placeholder="イベントの詳細"
+                label="イベントの詳細"
+                fullWidth
+                multiline
+                margin="normal"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -102,7 +114,9 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="date"
                 name="date"
-                placeholder="イベントの実施日"
+                label="イベントの開始日"
+                fullWidth
+                margin="normal"
                 value={dayjs(start_date).format("YYYY-MM-DD")}
                 onChange={(e) => setStart_Date(new Date(e.target.value))}
               />
@@ -111,7 +125,9 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="text"
                 name="time"
-                placeholder="イベント開始時間"
+                label="イベント開始時間"
+                fullWidth
+                margin="normal"
                 value={start_time}
                 onChange={(e) => setStart_time(e.target.value)}
               />
@@ -127,7 +143,9 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="date"
                 name="date"
-                placeholder="イベントの実施日"
+                label="イベントの終了日"
+                fullWidth
+                margin="normal"
                 value={dayjs(end_date).format("YYYY-MM-DD")}
                 onChange={(e) => setEnd_Date(new Date(e.target.value))}
               />
@@ -136,8 +154,10 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="text"
                 name="time"
-                placeholder="イベント開始時間"
+                label="イベント終了時間"
+                fullWidth
                 value={end_time}
+                margin="normal"
                 onChange={(e) => setEnd_time(e.target.value)}
               />
               {/* <TextField
@@ -152,7 +172,9 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="text"
                 name="capacity"
-                placeholder="イベントの定員"
+                label="イベントの定員"
+                fullWidth
+                margin="normal"
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
               />
@@ -161,7 +183,9 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="text"
                 name="place"
-                placeholder="会場"
+                label="会場"
+                margin="normal"
+                fullWidth
                 value={place}
                 onChange={(e) => setPlace(e.target.value)}
               />
@@ -170,7 +194,9 @@ const EventForm = ({ session }: { session: Session | null }) => {
               <TextField
                 type="text"
                 name="place_link"
-                placeholder="会場のURL"
+                label="会場のURL"
+                fullWidth
+                margin="normal"
                 value={place_link}
                 onChange={(e) => setPlace_link(e.target.value)}
               />
