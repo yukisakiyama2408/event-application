@@ -4,7 +4,7 @@ import Link from "next/link";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
+import { Container, CardMedia } from "@mui/material";
 import { useEffect, useState } from "react";
 import GlobalHeader from "@/components/globalHeader";
 const Event = () => {
@@ -16,7 +16,7 @@ const Event = () => {
           .from("events")
           .select(
             `
-          id,title,capacity,start_date,start_time,end_date,end_time,
+          id,title,capacity,start_date,start_time,end_date,end_time,image_url,
           event_participate ( id )`
           )
           .eq("is_published", true);
@@ -30,6 +30,7 @@ const Event = () => {
     };
     fetchEvent();
   }, []);
+
   return (
     <>
       <div>
@@ -37,10 +38,19 @@ const Event = () => {
           <GlobalHeader />
         </div>
         <div>
-          <Container>
+          <Container component="main" maxWidth="xs">
             {events?.map((event: any) => (
               <div key={event.id}>
                 <Card sx={{ maxWidth: 345 }}>
+                  <div>
+                    {" "}
+                    <CardMedia
+                      component="img"
+                      sx={{ height: 140 }}
+                      image={event.image_url}
+                      alt="イベントの表紙"
+                    />
+                  </div>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                       <Link href="/event/[id]" as={`/event/${event.id}`}>
