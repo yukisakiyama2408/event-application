@@ -31,7 +31,7 @@ type EventType = {
 };
 
 const Event = () => {
-  const [events, setEvents] = useState<Array<Event>>([]);
+  const [events, setEvents] = useState<any>([]);
   useEffect(() => {
     const fetchEvent = async () => {
       try {
