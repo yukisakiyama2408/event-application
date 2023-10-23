@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import GlobalHeader from "@/components/globalHeader";
 import format from "date-fns/format";
 import { ReactNode } from "react";
+import { Database } from "../../../database.types";
 
 interface Event {
   id: string;
@@ -25,16 +26,16 @@ interface Event {
   };
 }
 
-interface EventType {
+type EventType = {
   events: Array<Event>;
-}
+};
 
 const Event = () => {
-  const [events, setEvents] = useState<EventType>();
+  const [events, setEvents] = useState<Array<Event>>([]);
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const { data, error } = await supabase
+        const { data: events, error } = await supabase
           .from("events")
           .select(
             `
@@ -45,8 +46,7 @@ const Event = () => {
         if (error) {
           throw error;
         }
-        console.log(data);
-        setEvents(data);
+        setEvents(events);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -61,8 +61,8 @@ const Event = () => {
           <GlobalHeader />
         </div>
         <div>
-          <Container component="main" maxWidth="sm" sx={{ mt: 10 }}>
-            <Stack direction="row" spacing={{ xs: 1, sm: 2, md: 4 }}>
+          <Container component="main" fixed sx={{ mt: 10 }}>
+            <Stack direction="row" spacing={2}>
               {events &&
                 events.map((event: Event) => (
                   <div key={event.id}>
