@@ -31,7 +31,7 @@ type EventType = {
 };
 
 const Event = () => {
-  const [events, setEvents] = useState<any>([]);
+  const [events, setEvents] = useState<Array<Event>>([]);
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -46,7 +46,8 @@ const Event = () => {
         if (error) {
           throw error;
         }
-        setEvents(events);
+        const typedEvents: Event[] = events;
+        setEvents(typedEvents);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -123,7 +123,7 @@ const EventForm = ({ session }: { session: Session | null }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                type="text"
+                type="time"
                 name="time"
                 label="イベント開始時間"
                 fullWidth
@@ -152,7 +152,7 @@ const EventForm = ({ session }: { session: Session | null }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                type="text"
+                type="time"
                 name="time"
                 label="イベント終了時間"
                 fullWidth
@@ -160,13 +160,6 @@ const EventForm = ({ session }: { session: Session | null }) => {
                 margin="normal"
                 onChange={(e) => setEnd_time(e.target.value)}
               />
-              {/* <TextField
-                type="time"
-                name="time"
-                placeholder="イベントの実施日"
-                value={dayjs(date).format("HH:mm:ss")}
-                onChange={(e) => setStart_time(new Date(e.target.value))}
-              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField

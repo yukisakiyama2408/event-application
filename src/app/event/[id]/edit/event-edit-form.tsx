@@ -133,7 +133,7 @@ const EventEditForm = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                type="text"
+                type="time"
                 name="time"
                 fullWidth
                 margin="normal"
@@ -141,13 +141,6 @@ const EventEditForm = () => {
                 value={start_time}
                 onChange={(e) => setStart_time(e.target.value)}
               />
-              {/* <TextField
-                type="time"
-                name="time"
-                placeholder="イベントの実施日"
-                value={dayjs(date).format("HH:mm:ss")}
-                onChange={(e) => setStart_time(new Date(e.target.value))}
-              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -162,7 +155,7 @@ const EventEditForm = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                type="text"
+                type="time"
                 name="time"
                 fullWidth
                 margin="normal"
@@ -170,13 +163,6 @@ const EventEditForm = () => {
                 value={end_time}
                 onChange={(e) => setEnd_time(e.target.value)}
               />
-              {/* <TextField
-                type="time"
-                name="time"
-                placeholder="イベントの実施日"
-                value={dayjs(date).format("HH:mm:ss")}
-                onChange={(e) => setStart_time(new Date(e.target.value))}
-              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField
