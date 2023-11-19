@@ -6,29 +6,36 @@ import Typography from "@mui/material/Typography";
 import { Container, CardMedia, Stack } from "@mui/material";
 import GlobalHeader from "@/components/globalHeader";
 import format from "date-fns/format";
-import { ReactNode } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/utils/supabase";
+import { Database } from "../../../database.types";
 
-interface Event {
-  id: string;
-  title: string;
-  capacity: number;
-  start_date: Date;
-  start_time: string;
-  end_date: Date;
-  end_time: string;
-  image_url: string;
-  event_participate: {
-    length: ReactNode;
-    id: string;
-  };
-}
+type Event = Database["public"]["Tables"]["events"]["Row"];
 
-type TypedEvent = {
-  eventList: Array<Event>;
-};
+const EventIndex = () => {
+  const [events, setEvents] = useState<Event[] | undefined>();
+  useEffect(() => {
+    const fetchEvent = async () => {
+      const query = supabase
+        .from("events")
+        .select(
+          `
+        id,title,capacity,start_date,start_time,end_date,end_time,image_url,
+        event_participate ( id )`
+        )
+        .eq("is_published", true);
+      const { data: events } = await query;
+      // const { data: events }: DbResult<typeof query> = await query;
+      if (events) {
+        setEvents(events);
+      }
+    };
+    fetchEvent();
+  }, []);
 
-const EventIndex: React.FC<TypedEvent> = ({ eventList }) => {
-  const events = eventList && eventList;
+  if (!events) return <>読み込み中</>;
+  console.log(events && events);
+  // const events = eventList && eventList;
 
   return (
     <>
@@ -48,7 +55,7 @@ const EventIndex: React.FC<TypedEvent> = ({ eventList }) => {
                         <CardMedia
                           component="img"
                           sx={{ height: 140 }}
-                          image={event.image_url}
+                          image={event.image_url || ""}
                           alt="イベントの表紙"
                         />
                       </div>
@@ -64,9 +71,15 @@ const EventIndex: React.FC<TypedEvent> = ({ eventList }) => {
                           component="div"
                         >
                           <div>
-                            {format(new Date(event.start_date), "yyyy/MM/dd")}
+                            {format(
+                              new Date(event.start_date || ""),
+                              "yyyy/MM/dd"
+                            )}
                             {event.start_time}-{" "}
-                            {format(new Date(event.end_date), "yyyy/MM/dd")}
+                            {format(
+                              new Date(event.end_date || ""),
+                              "yyyy/MM/dd"
+                            )}
                             {event.end_time}
                           </div>
                         </Typography>
