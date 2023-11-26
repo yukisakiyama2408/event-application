@@ -11,21 +11,20 @@ import { supabase } from "@/utils/supabase";
 import { Database } from "../../../database.types";
 
 type Event = Database["public"]["Tables"]["events"]["Row"];
-
+type Participate = Database["public"]["Tables"]["event_participate"]["Row"];
+type NestedEvent = Event & { event_participate: Participate };
 const EventIndex = () => {
-  const [events, setEvents] = useState<Event[] | undefined>();
+  const [events, setEvents] = useState<Array<Event> | undefined>([]);
+
   useEffect(() => {
     const fetchEvent = async () => {
       const query = supabase
         .from("events")
         .select(
-          `
-        id,title,capacity,start_date,start_time,end_date,end_time,image_url,
-        event_participate ( id )`
+          "id,title,description,capacity,start_date,start_time,end_date,end_time,host_id,is_published,place,place_link,image_url"
         )
         .eq("is_published", true);
       const { data: events } = await query;
-      // const { data: events }: DbResult<typeof query> = await query;
       if (events) {
         setEvents(events);
       }
@@ -33,9 +32,7 @@ const EventIndex = () => {
     fetchEvent();
   }, []);
 
-  if (!events) return <>読み込み中</>;
   console.log(events && events);
-  // const events = eventList && eventList;
 
   return (
     <>
@@ -82,14 +79,6 @@ const EventIndex = () => {
                             )}
                             {event.end_time}
                           </div>
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          component="div"
-                        >
-                          参加者数：{event.event_participate.length}/
-                          {event.capacity}
                         </Typography>
                       </CardContent>
                     </Card>

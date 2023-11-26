@@ -43,18 +43,18 @@ export interface Database {
       events: {
         Row: {
           capacity: number | null;
-          description: string;
+          description: string | null;
           end_date: Date | null;
           end_time: string | null;
           host_id: string | null;
-          id: string;
+          id: string | null;
           image_url: string | null;
           is_published: boolean | null;
           place: string | null;
           place_link: string | null;
           start_date: Date | null;
           start_time: string | null;
-          title: string;
+          title: string | null;
         };
         Insert: {
           capacity?: number | null;
@@ -144,6 +144,3 @@ export interface Database {
     };
   };
 }
-
-export type Tables<T extends keyof Database["public"]["Tables"]> =
-  Database["public"]["Tables"][T]["Row"];
