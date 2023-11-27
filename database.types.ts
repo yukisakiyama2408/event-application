@@ -99,7 +99,7 @@ export interface Database {
         Row: {
           avatar_url: string | null;
           full_name: string | null;
-          id: string;
+          id: string | null;
           updated_at: string | null;
           username: string | null;
           website: string | null;
