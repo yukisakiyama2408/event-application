@@ -39,12 +39,12 @@ const EventForm = ({ session }: { session: Session | null }) => {
         const { data: users, error } = await supabase
           .from("profiles")
           .select(`id`)
-          .eq("id", user?.id)
+          .eq("id", user?.id as string)
           .single();
         if (error) {
           throw error;
         }
-        setHost_id(users.id);
+        setHost_id(users.id as string);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -131,13 +131,6 @@ const EventForm = ({ session }: { session: Session | null }) => {
                 value={start_time}
                 onChange={(e) => setStart_time(e.target.value)}
               />
-              {/* <TextField
-                type="time"
-                name="time"
-                placeholder="イベントの実施日"
-                value={dayjs(date).format("HH:mm:ss")}
-                onChange={(e) => setStart_time(new Date(e.target.value))}
-              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField
