@@ -61,7 +61,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
     fetchUserId();
   }, []);
   const event = events && events[0];
-  const handleDelete = async (id: any) => {
+  const handleDelete = async (id: string) => {
     await DeleteEvent(id);
     router.push("/event");
   };
@@ -130,7 +130,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
                   <div>
                     <Button
                       variant="contained"
-                      onClick={() => handleDelete(id)}
+                      onClick={() => handleDelete(id as string)}
                     >
                       削除
                     </Button>
