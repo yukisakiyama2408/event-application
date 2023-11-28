@@ -1,10 +1,19 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-// import { Database } from '../database.types'
 import {
   Session,
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
+import GlobalHeader from "@/components/globalHeader";
+import {
+  Box,
+  TextField,
+  Button,
+  Checkbox,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 export default function AccountForm({ session }: { session: Session | null }) {
   const supabase = createClientComponentClient();
@@ -77,58 +86,92 @@ export default function AccountForm({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className="form-widget">
+    <>
+      {" "}
       <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session?.user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="fullName">Full Name</label>
-        <input
-          id="fullName"
-          type="text"
-          value={fullname || ""}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ""}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ""}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
+        <div>
+          <GlobalHeader />
+        </div>
+        <Container component="main" maxWidth="xs" fixed sx={{ mt: 10 }}>
+          <div className="form-widget">
+            <div>
+              <Grid item xs={12}>
+                <TextField
+                  id="email"
+                  type="text"
+                  label="email"
+                  fullWidth
+                  name="email"
+                  margin="normal"
+                  value={session?.user.email}
+                  disabled
+                />
+              </Grid>
+            </div>
+            <div>
+              <Grid item xs={12}>
+                <TextField
+                  id="fullName"
+                  type="text"
+                  label="名前"
+                  fullWidth
+                  name="fullName"
+                  margin="normal"
+                  value={fullname || ""}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+              </Grid>
+            </div>
+            <div>
+              <Grid item xs={12}>
+                <TextField
+                  id="username"
+                  type="text"
+                  label="username"
+                  fullWidth
+                  name="fullName"
+                  margin="normal"
+                  value={username || ""}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Grid>
+            </div>
+            <div>
+              <Grid item xs={12}>
+                <TextField
+                  id="website"
+                  type="url"
+                  label="website"
+                  fullWidth
+                  name="website"
+                  margin="normal"
+                  value={website || ""}
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </Grid>
+            </div>
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() =>
-            updateProfile({ fullname, username, website, avatar_url })
-          }
-          disabled={loading}
-        >
-          {loading ? "Loading ..." : "Update"}
-        </button>
+            <div>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  updateProfile({ fullname, username, website, avatar_url })
+                }
+                disabled={loading}
+              >
+                {loading ? "Loading ..." : "Update"}
+              </Button>
+            </div>
+            <div>
+              <form action="/auth/signout" method="post">
+                <Button variant="contained" type="submit">
+                  Sign out
+                </Button>
+              </form>
+            </div>
+          </div>
+        </Container>
       </div>
-
-      <div>
-        <form action="/auth/signout" method="post">
-          <button className="button block" type="submit">
-            Sign out
-          </button>
-        </form>
-      </div>
-    </div>
+    </>
   );
 }
