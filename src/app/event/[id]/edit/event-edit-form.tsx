@@ -14,51 +14,57 @@ import { supabase } from "@/utils/supabase";
 import Link from "next/link";
 import dayjs from "dayjs";
 import GlobalHeader from "@/components/globalHeader";
+import { Database } from "../../../../../database.types";
+
+type Event = Database["public"]["Tables"]["events"]["Row"];
 
 const EventEditForm = () => {
   const params = useParams();
   const router = useRouter();
   const id = params?.id;
-  const [event, setEvent] = useState<any>([]);
+  const [event, setEvent] = useState<Array<Event>>([]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [start_date, setStart_Date] = useState<Date | undefined>();
+  const [start_date, setStart_Date] = useState<Date | null>();
   const [start_time, setStart_time] = useState<string>("");
-  const [end_date, setEnd_Date] = useState<Date | undefined>();
+  const [end_date, setEnd_Date] = useState<Date | null>();
   const [end_time, setEnd_time] = useState<string>("");
-  const [capacity, setCapacity] = useState<string>("");
+  const [capacity, setCapacity] = useState<number | null>();
   const [host_id, setHost_id] = useState<string>("");
-  const [is_published, setIs_Published] = useState<boolean>();
+  const [is_published, setIs_Published] = useState<
+    boolean | null | undefined
+  >();
   const [place, setPlace] = useState<string>("");
   const [place_link, setPlace_link] = useState<string>("");
+  const [image_url, setImage_Url] = useState<string>("");
+
   useEffect(() => {
     const fetchEvent = async () => {
-      try {
-        const { data: event, error } = await supabase
-          .from("events")
-          .select()
-          .eq("id", id);
-        setTitle(event && event[0].title);
-        setDescription(event && event[0].description);
-        setHost_id(event && event[0].host_id);
-        setStart_Date(event && event[0].start_date);
-        setStart_time(event && event[0].start_time);
-        setEnd_Date(event && event[0].end_date);
-        setEnd_time(event && event[0].end_time);
-        setCapacity(event && event[0].capacity);
+      const { data: event } = await supabase
+        .from("events")
+        .select(
+          "id,title,description,capacity,start_date,start_time,end_date,end_time,host_id,is_published,place,place_link,image_url"
+        )
+        .eq("id", id);
+      if (event) {
+        setTitle(event && (event[0].title as string));
+        setDescription(event && (event[0].description as string));
+        setHost_id(event && (event[0].host_id as string));
+        setStart_Date(event && (event[0].start_date as Date | null));
+        setStart_time(event && (event[0].start_time as string));
+        setEnd_Date(event && (event[0].end_date as Date | null));
+        setEnd_time(event && (event[0].end_time as string));
+        setCapacity(event && (event[0].capacity as number));
         setIs_Published(event && event[0].is_published);
-        setPlace(event && event[0].place);
-        setPlace_link(event && event[0].place_link);
-        if (error) {
-          throw error;
-        }
+        setPlace(event && (event[0].place as string));
+        setPlace_link(event && (event[0].place_link as string));
         setEvent(event);
-      } catch (error) {
-        console.error("Error fetching data:", error);
       }
     };
     fetchEvent();
   }, []);
+
+  console.log(event);
 
   const handleEditEvent = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -77,6 +83,7 @@ const EventEditForm = () => {
       is_published,
       place,
       place_link,
+      image_url,
       id
     );
     router.push("/event");
@@ -172,7 +179,7 @@ const EventEditForm = () => {
                 margin="normal"
                 label="イベントの定員"
                 value={capacity}
-                onChange={(e) => setCapacity(e.target.value)}
+                onChange={(e) => setCapacity(Number(e.target.value))}
               />
             </Grid>
             <Grid item xs={12}>
@@ -198,7 +205,7 @@ const EventEditForm = () => {
               />
             </Grid>
             <Checkbox
-              checked={is_published}
+              checked={is_published || false}
               onChange={handleChange}
               inputProps={{ "aria-label": "controlled" }}
             />

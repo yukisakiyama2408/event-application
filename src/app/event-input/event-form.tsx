@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import {
   Box,
@@ -22,15 +21,18 @@ const EventForm = ({ session }: { session: Session | null }) => {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [start_date, setStart_Date] = useState<Date | undefined>();
+  const [start_date, setStart_Date] = useState<Date | null>();
   const [start_time, setStart_time] = useState<string>("");
-  const [end_date, setEnd_Date] = useState<Date | undefined>();
+  const [end_date, setEnd_Date] = useState<Date | null>();
   const [end_time, setEnd_time] = useState<string>("");
-  const [capacity, setCapacity] = useState<string>("");
+  const [capacity, setCapacity] = useState<number | null>();
   const [host_id, setHost_id] = useState<string>("");
-  const [is_published, setIs_Published] = useState<boolean>(false);
+  const [is_published, setIs_Published] = useState<
+    boolean | null | undefined
+  >();
   const [place, setPlace] = useState<string>("");
   const [place_link, setPlace_link] = useState<string>("");
+  const [image_url, setImage_Url] = useState<string>("");
 
   const user = session?.user;
   useEffect(() => {
@@ -67,7 +69,8 @@ const EventForm = ({ session }: { session: Session | null }) => {
       host_id,
       is_published,
       place,
-      place_link
+      place_link,
+      image_url
     );
     router.push("/event");
   };
@@ -162,7 +165,7 @@ const EventForm = ({ session }: { session: Session | null }) => {
                 fullWidth
                 margin="normal"
                 value={capacity}
-                onChange={(e) => setCapacity(e.target.value)}
+                onChange={(e) => setCapacity(Number(e.target.value))}
               />
             </Grid>
             <Grid item xs={12}>
@@ -188,7 +191,7 @@ const EventForm = ({ session }: { session: Session | null }) => {
               />
             </Grid>
             <Checkbox
-              checked={is_published}
+              checked={is_published || undefined}
               onChange={handleChange}
               inputProps={{ "aria-label": "controlled" }}
             />
