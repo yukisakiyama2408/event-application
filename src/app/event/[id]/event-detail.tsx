@@ -12,9 +12,11 @@ import { Session } from "@supabase/auth-helpers-nextjs";
 import ParticipateCancel from "@/components/event-participate-cancel/participate-cancel";
 import GlobalHeader from "@/components/globalHeader";
 import { Database } from "../../../../database.types";
+import EventParticipant from "@/components/event-participate/event-participants";
 
 type Event = Database["public"]["Tables"]["events"]["Row"];
 type User = Database["public"]["Tables"]["profiles"]["Row"];
+type Participate = Database["public"]["Tables"]["event_participate"]["Row"];
 
 const EventDetail = ({ session }: { session: Session | null }) => {
   const router = useRouter();
@@ -22,7 +24,13 @@ const EventDetail = ({ session }: { session: Session | null }) => {
   const id = params?.id;
   const [events, setEvents] = useState<Array<Event> | null>([]);
   const [profiles, setProfiles] = useState<User | null>(null);
-  const [participates, setParticipates] = useState<any>();
+  const [participates, setParticipates] = useState<Array<Participate> | null>(
+    []
+  );
+  const [participants, setParticipants] = useState<Array<
+    Participate & { profiles: User }
+  > | null>([]);
+
   const user = session?.user;
 
   useEffect(() => {
@@ -50,8 +58,8 @@ const EventDetail = ({ session }: { session: Session | null }) => {
       const queryB = supabase
         .from("event_participate")
         .select("id,participated_event_id,participating_account_id")
+
         .eq("participating_account_id", user?.id as string);
-      // .single();
       const { data: participates } = await queryB;
 
       if (participates) {
@@ -65,7 +73,6 @@ const EventDetail = ({ session }: { session: Session | null }) => {
     await DeleteEvent(id);
     router.push("/event");
   };
-
   return (
     <>
       <div>
@@ -89,7 +96,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
                     {event.start_time}-{event.end_time}
                   </Typography>
                 ) : (
-                  <Typography variant="h6" gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     {" "}
                     開始時間：
                     {format(new Date(event.start_date || ""), "yyyy年MM月dd日")}
@@ -154,6 +161,7 @@ const EventDetail = ({ session }: { session: Session | null }) => {
                   </div>
                 )}
               </div>
+              <EventParticipant Id={event?.id} />
             </div>
           )}
         </Container>{" "}
