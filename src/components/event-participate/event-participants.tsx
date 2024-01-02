@@ -19,7 +19,7 @@ const EventParticipant = ({ Id }: { Id: string | null | undefined }) => {
           `id,participated_event_id,participating_account_id,profiles(avatar_url,full_name,id,updated_at,username,website)`
         )
         .eq("participated_event_id", Id as string)
-        .returns<Participate & { profiles: User }>();
+        .returns<Array<Participate & { profiles: User }>>();
       const { data: members } = await query;
       if (members) {
         setParticipants(members);
@@ -27,11 +27,11 @@ const EventParticipant = ({ Id }: { Id: string | null | undefined }) => {
     };
     fetchUserId();
   }, []);
-  console.log(participants);
-  const member = participants && participants[0].profiles;
+  const member = participants && participants[0];
   return (
     <>
-      <div>{member && <div>{member.full_name}</div>}</div>
+      {" "}
+      <div>{member && <div>{member.profiles.full_name}</div>}</div>
     </>
   );
 };
