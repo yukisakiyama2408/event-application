@@ -57,7 +57,9 @@ const EventDetail = ({ session }: { session: Session | null }) => {
       }
       const queryB = supabase
         .from("event_participate")
-        .select("id,participated_event_id,participating_account_id")
+        .select(
+          "id,participated_event_id,participating_account_id,participate_comment"
+        )
 
         .eq("participating_account_id", user?.id as string);
       const { data: participates } = await queryB;
@@ -93,14 +95,12 @@ const EventDetail = ({ session }: { session: Session | null }) => {
                 {event.start_date == event.end_date ? (
                   <Typography variant="h6" gutterBottom>
                     {format(new Date(event.start_date || ""), "yyyy年MM月dd日")}
-                    {event.start_time}-{event.end_time}
+                    {event.start_time}〜{event.end_time}
                   </Typography>
                 ) : (
                   <Typography variant="body1" gutterBottom>
-                    {" "}
-                    開始時間：
                     {format(new Date(event.start_date || ""), "yyyy年MM月dd日")}
-                    {event.start_time}- 終了時間：
+                    {event.start_time}〜
                     {format(new Date(event.end_date || ""), "yyyy年MM月dd日")}
                     {event.end_time}
                   </Typography>
