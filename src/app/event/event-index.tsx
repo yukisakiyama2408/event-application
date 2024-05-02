@@ -32,8 +32,6 @@ const EventIndex = () => {
     fetchEvent();
   }, []);
 
-  console.log(events && events);
-
   return (
     <>
       <div>
@@ -70,14 +68,9 @@ const EventIndex = () => {
                           <div>
                             {format(
                               new Date(event.start_date || ""),
-                              "yyyy/MM/dd"
+                              "MM月dd日"
                             )}
-                            {event.start_time}-{" "}
-                            {format(
-                              new Date(event.end_date || ""),
-                              "yyyy/MM/dd"
-                            )}
-                            {event.end_time}
+                            {event.start_time}
                           </div>
                         </Typography>
                       </CardContent>
