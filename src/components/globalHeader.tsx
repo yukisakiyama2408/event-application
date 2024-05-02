@@ -7,11 +7,14 @@ import {
   IconButton,
   MenuItem,
   Menu,
+  Button
 } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const GlobalHeader = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const router = useRouter();
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -24,7 +27,9 @@ const GlobalHeader = () => {
   //   const signOut = () => {
   //     logout();
   //   };
-
+  const handleBackToHome = async (e: any) => {
+    router.push("/event");
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -36,14 +41,14 @@ const GlobalHeader = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          <Typography
+            <Button variant="text" onClick={handleBackToHome}>
+            <Typography
             variant="h6"
-            component="a"
-            href="/event"
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1 ,color:"white"}}
           >
             Event Book
           </Typography>
+      </Button>
           <div>
             <IconButton
               size="large"
