@@ -23,7 +23,6 @@
     "@types/react-dom": "18.2.7",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
-    "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",
     "react": "18.2.0",
@@ -31,6 +30,10 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "supabase": "^1.106.1"
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "globals": "^15.1.0",
+    "supabase": "^1.106.1",
+    "typescript-eslint": "^7.8.0"
   }
 }

@@ -7,9 +7,8 @@ import {
   IconButton,
   MenuItem,
   Menu,
-  Button
 } from "@mui/material";
-import Link from "next/link";
+import { AccountCircle } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 
 const GlobalHeader = () => {
@@ -22,13 +21,8 @@ const GlobalHeader = () => {
     setAnchorEl(null);
   };
 
-  //   const { logout } = useAuth0();
-
-  //   const signOut = () => {
-  //     logout();
-  //   };
-  const handleBackToHome = async (e: any) => {
-    router.push("/event");
+  const handleToMyPage = async (e: any) => {
+    router.push("/account/mypage");
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -41,14 +35,14 @@ const GlobalHeader = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-            <Button variant="text" onClick={handleBackToHome}>
-            <Typography
+          <Typography
             variant="h6"
-            sx={{ flexGrow: 1 ,color:"white"}}
+            component="a"
+            href="/event"
+            sx={{ flexGrow: 1, color: "white" }}
           >
             Event Book
           </Typography>
-      </Button>
           <div>
             <IconButton
               size="large"
@@ -58,7 +52,7 @@ const GlobalHeader = () => {
               onClick={handleMenu}
               color="inherit"
             >
-              {/* <AccountCircle /> */}
+              <AccountCircle />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -75,10 +69,7 @@ const GlobalHeader = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem>
-                <Link href="/account/myPage">My page</Link>
-              </MenuItem>
-              {/* <MenuItem onClick={signOut}>Logout</MenuItem> */}
+              <MenuItem onClick={handleToMyPage}>My Page</MenuItem>
             </Menu>
           </div>
         </Toolbar>
